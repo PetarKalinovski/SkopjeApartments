@@ -35,5 +35,11 @@ public class Advertisement{
         this.type=type;
         this.price=price;
     }
+
+    public Double getRatingAvg() {
+        List<Double> ratings= this.getRatings();
+        Double avg= ratings.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+        return avg;
+    }
 }
 

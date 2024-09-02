@@ -39,6 +39,7 @@ public class AdvertismentsController {
                  avgRatingLess,comments,numRooms, sizeMore, sizeLess, advertisementType);
 
         model.addAttribute("ads", ads);
+//        model.addAttribute("rating", this.advertisementService.ratingAvg());
         model.addAttribute("municipalities", MunicipalityType.values());
         model.addAttribute("types", AdvertisementType.values());
         return "list";
@@ -57,6 +58,15 @@ public class AdvertismentsController {
         model.addAttribute("municipalities", MunicipalityType.values());
         model.addAttribute("types", AdvertisementType.values());
         return "adForm";
+    }
+
+    @GetMapping("/apartments/details/{id}")
+    public String detailsApartments(@PathVariable Long id, Model model) {
+        model.addAttribute("ad", advertisementService.findById(id));
+        model.addAttribute("apartments", apartmentService.listAll());
+        model.addAttribute("municipalities", MunicipalityType.values());
+        model.addAttribute("types", AdvertisementType.values());
+        return "details";
     }
 
 

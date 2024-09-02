@@ -1,18 +1,131 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+
+        .dropdown-btn {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            text-align: left;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .dropdown-btn:after {
+            content: '\25bc';
+            float: right;
+            margin-left: 10px;
+        }
+
+        .dropdown-btn.active:after {
+            content: '\25b2';
+        }
+
+
+        #filter-form {
+            display: none;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #filter-form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        #filter-form select, #filter-form input {
+            width: calc(100% - 22px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        #filter-form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #filter-form button:hover {
+            background-color: #45a049;
+        }
+
+        /* Table styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .add-item {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 3px;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .add-item:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 
 <div>
-    <!-- The form below should invoke the method PostsController.listAll -->
+    <button class="dropdown-btn" onclick="toggleFilter()">Show Filters</button>
+
     <form id="filter-form">
         <label for="municipality">Municipality</label>
         <select id="municipality" name="municipality">
             <option value="">All</option>
-            <!-- For each tag you should have one <option> like below  -->
+
             <option th:each="mu: ${municipalities}" th:value="${mu.name()}" th:text="${mu.name()}"> [tag.name]</option>
         </select>
 
@@ -22,35 +135,37 @@
         <label for="priceLess">Costs less than</label>
         <input id="priceLess" name="priceLess" type="number"/>
 
-        <label for="avgRatingMore">Has a higher average rating than </label>
+        <label for="avgRatingMore">Has a higher average rating than</label>
         <input id="avgRatingMore" name="avgRatingMore" type="number"/>
 
-        <label for="avgRatingLess">Has a lower average rating than </label>
+        <label for="avgRatingLess">Has a lower average rating than</label>
         <input id="avgRatingLess" name="avgRatingLess" type="number"/>
 
-        <label for="numRooms">Has this many number of rooms </label>
+        <label for="numRooms">Has this many number of rooms</label>
         <input id="numRooms" name="numRooms" type="number"/>
 
-        <label for="sizeMore">Has a size of more square meters than </label>
+        <label for="sizeMore">Has a size of more square meters than</label>
         <input id="sizeMore" name="sizeMore" type="number"/>
 
-        <label for="sizeLess">Has a size of less square meters than </label>
+        <label for="sizeLess">Has a size of less square meters than</label>
         <input id="sizeLess" name="sizeLess" type="number"/>
 
         <label for="advertisementType">Rent/Buy</label>
         <select id="advertisementType" name="advertisementType">
             <option value="">All</option>
-            <!-- For each postType you should have one <option> like below  -->
+
             <option th:each="type:${types}" th:value="${type.name()}" th:text="${type.name()}">[postType]</option>
         </select>
         <button id="filter" type="submit">Filter</button>
     </form>
+
     <div>
-        <!-- PostsController.showAdd -->
+
         <a href="/apartments/add/ad" class="add-item">
             Add new post
         </a>
     </div>
+
     <table>
         <tr>
             <th>Advertisement Type</th>
@@ -61,7 +176,7 @@
             <th>Municipality</th>
             <th>Address</th>
         </tr>
-        <!-- For each post you should have one <tr> like below -->
+
         <tr class="item" th:each="ad:${ads}">
             <td th:text="${ad.getType().name()}">[post.title]</td>
             <td th:text="${ad.getPrice()}">[post.title]</td>
@@ -71,38 +186,33 @@
             <td th:text="${ad.getApartment().getMunicipality().name()}">[post.postType]</td>
             <td th:text="${ad.getApartment().getAddress()}">[post.postType]</td>
             <td>
-<!--                <ul th:each="tag:${post.tags}">-->
-<!--                    &lt;!&ndash; For each post's tag you should display one <li> element like the one below &ndash;&gt;-->
-<!--                    <li th:text="${tag.name}">[tag.name]</li>-->
-<!--                </ul>-->
-<!--            </td>-->
-<!--            <td th:text="${post.likes}">[post.likes]</td>-->
-<!--            <td>-->
-<!--                &lt;!&ndash; PostsController.delete &ndash;&gt;-->
                 <th:block>
                     <form method="post" th:action="@{'/apartments/delete/ad/{id}'(id=${ad.id})}">
-                        <button type="submit" class="delete-item" >Delete</button>
+                        <button type="submit" class="delete-item">Delete</button>
                     </form>
-                    <!-- PostsController.showEdit -->
-                    <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}" >Edit</a>
-                    <!-- PostsController.like -->
+
+                    <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}">Edit</a>
                 </th:block>
-<!--                <th:block sec:authorize="hasRole('ROLE_USER')">-->
-<!--                    <form method="post" th:action="@{'/posts/like/{id}'(id=${post.id})}" >-->
-<!--                        <button type="submit" class="like-item">Like</button>-->
-<!--                    </form>-->
-<!--                </th:block>-->
             </td>
         </tr>
     </table>
-
 </div>
-<!--<div>-->
-<!--    <ul id="nav">-->
-<!--        <li><a href="/">Home</a></li>-->
-<!--        <li><a href="/login">Login</a></li>-->
-<!--        <li><a href="/logout">Logout</a></li>-->
-<!--    </ul>-->
-<!--</div>-->
+
+<script>
+    function toggleFilter() {
+        var filterForm = document.getElementById("filter-form");
+        var dropdownBtn = document.querySelector(".dropdown-btn");
+        if (filterForm.style.display === "none" || filterForm.style.display === "") {
+            filterForm.style.display = "block";
+            dropdownBtn.classList.add("active");
+            dropdownBtn.textContent = "Hide Filters";
+        } else {
+            filterForm.style.display = "none";
+            dropdownBtn.classList.remove("active");
+            dropdownBtn.textContent = "Show Filters";
+        }
+    }
+</script>
+
 </body>
 </html>

@@ -87,4 +87,19 @@ public class AdvertismentsController {
         this.advertisementService.delete(id);
         return "redirect:/apartments";
     }
+
+    @PostMapping("/apartments/rate/{id}")
+    public String rateApartment(@PathVariable Long id, @RequestParam Double rating) {
+        if (rating >= 1 && rating <= 5) {
+            advertisementService.addRating(rating,id);
+        }
+        return "redirect:/apartments/details/" + id;
+    }
+    @PostMapping("/apartments/comments/{id}")
+    public String addComment(@PathVariable Long id, @RequestParam String comment) {
+        if (comment != null && !comment.trim().isEmpty()) {
+            advertisementService.addComment(comment,id);
+        }
+        return "redirect:/apartments/details/" + id;
+    }
 }

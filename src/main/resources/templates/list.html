@@ -242,7 +242,41 @@
 
     <!-- The form below should invoke the method PostsController.listAll -->
     <form id="filter-form">
-        <!-- Filter fields... (same as previous implementation) -->
+        <label for="municipality">Municipality</label>
+        <select id="municipality" name="municipality">
+            <option value="">All</option>
+            <!-- For each tag you should have one <option> like below  -->
+            <option th:each="mu: ${municipalities}" th:value="${mu.name()}" th:text="${mu.name()}"> [tag.name]</option>
+        </select>
+
+        <label for="priceMore">Costs more than</label>
+        <input id="priceMore" name="priceMore" type="number"/>
+
+        <label for="priceLess">Costs less than</label>
+        <input id="priceLess" name="priceLess" type="number"/>
+
+        <label for="avgRatingMore">Has a higher average rating than </label>
+        <input id="avgRatingMore" name="avgRatingMore" type="number"/>
+
+        <label for="avgRatingLess">Has a lower average rating than </label>
+        <input id="avgRatingLess" name="avgRatingLess" type="number"/>
+
+        <label for="numRooms">Has this many number of rooms </label>
+        <input id="numRooms" name="numRooms" type="number"/>
+
+        <label for="sizeMore">Has a size of more square meters than </label>
+        <input id="sizeMore" name="sizeMore" type="number"/>
+
+        <label for="sizeLess">Has a size of less square meters than </label>
+        <input id="sizeLess" name="sizeLess" type="number"/>
+
+        <label for="advertisementType">Rent/Buy</label>
+        <select id="advertisementType" name="advertisementType">
+            <option value="">All</option>
+            <!-- For each postType you should have one <option> like below  -->
+            <option th:each="type:${types}" th:value="${type.name()}" th:text="${type.name()}">[postType]</option>
+        </select>
+        <button id="filter" type="submit">Filter</button>
     </form>
 
     <div>
@@ -260,7 +294,7 @@
             <div class="card-content">
                 <h2 class="card-title" th:text="${ad.getApartment().getTitle()}">Apartment Title</h2>
                 <p class="card-details">
-                    <span th:text="'Price: ' + ${ad.getPrice()} + ' USD'">Price: $200,000</span><br>
+                    <span th:text="'Price: ' + ${ad.getPrice()} + ' MKD'">Price: $200,000</span><br>
                     <span th:text="'Size: ' + ${ad.getApartment().getSize()} + ' sqm'">Size: 120 sqm</span><br>
                     <span th:text="'Rooms: ' + ${ad.getApartment().getNumRooms()}">Rooms: 3</span><br>
                     <span th:text="${ad.getApartment().getMunicipality().name()}">Municipality Name</span><br>

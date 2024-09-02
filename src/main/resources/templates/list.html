@@ -47,7 +47,7 @@
     </form>
     <div>
         <!-- PostsController.showAdd -->
-        <a href="/posts/add" class="add-item">
+        <a href="/apartments/add/ad" class="add-item">
             Add new post
         </a>
     </div>
@@ -55,7 +55,6 @@
         <tr>
             <th>Advertisement Type</th>
             <th>Price</th>
-            <th>Rating</th>
             <th>Apartment name</th>
             <th>Apartment size</th>
             <th>Number of rooms</th>
@@ -66,13 +65,12 @@
         <tr class="item" th:each="ad:${ads}">
             <td th:text="${ad.getType().name()}">[post.title]</td>
             <td th:text="${ad.getPrice()}">[post.title]</td>
-            <td th:text="${ad.getRatings().stream().mapToDouble(Double::doubleValue).average().orElse(0.0);}">[post.content]</td>
             <td th:text="${ad.getApartment().getTitle()}">[post.dateCreated]</td>
             <td th:text="${ad.getApartment().getSize()}">[post.postType]</td>
             <td th:text="${ad.getApartment().getNumRooms()}">[post.postType]</td>
             <td th:text="${ad.getApartment().getMunicipality().name()}">[post.postType]</td>
             <td th:text="${ad.getApartment().getAddress()}">[post.postType]</td>
-<!--            <td>-->
+            <td>
 <!--                <ul th:each="tag:${post.tags}">-->
 <!--                    &lt;!&ndash; For each post's tag you should display one <li> element like the one below &ndash;&gt;-->
 <!--                    <li th:text="${tag.name}">[tag.name]</li>-->
@@ -81,20 +79,20 @@
 <!--            <td th:text="${post.likes}">[post.likes]</td>-->
 <!--            <td>-->
 <!--                &lt;!&ndash; PostsController.delete &ndash;&gt;-->
-<!--                <th:block>-->
-<!--                    <form method="post" th:action="@{'/posts/delete/{id}'(id=${post.id})}">-->
-<!--                        <button type="submit" class="delete-item" >Delete</button>-->
-<!--                    </form>-->
-<!--                    &lt;!&ndash; PostsController.showEdit &ndash;&gt;-->
-<!--                    <a class="edit-item" th:href="@{'/posts/edit/{id}'(id=${post.id})}" >Edit</a>-->
-<!--                    &lt;!&ndash; PostsController.like &ndash;&gt;-->
-<!--                </th:block>-->
+                <th:block>
+                    <form method="post" th:action="@{'/apartments/delete/ad/{id}'(id=${ad.id})}">
+                        <button type="submit" class="delete-item" >Delete</button>
+                    </form>
+                    <!-- PostsController.showEdit -->
+                    <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}" >Edit</a>
+                    <!-- PostsController.like -->
+                </th:block>
 <!--                <th:block sec:authorize="hasRole('ROLE_USER')">-->
 <!--                    <form method="post" th:action="@{'/posts/like/{id}'(id=${post.id})}" >-->
 <!--                        <button type="submit" class="like-item">Like</button>-->
 <!--                    </form>-->
 <!--                </th:block>-->
-<!--            </td>-->
+            </td>
         </tr>
     </table>
 

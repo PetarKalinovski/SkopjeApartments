@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ApartmentsController {
@@ -27,14 +28,15 @@ public class ApartmentsController {
 
     @GetMapping("/apart/add/apt")
     public String showApartment(Model model){
+        model.addAttribute("municipalities", MunicipalityType.values());
         return "formapt.html";
     }
 
     @GetMapping("/apart/edit/apt/{id}")
     public String EditApartment(@PathVariable Long id, Model model) {
-        model.addAttribute("apartment", apartmentService.findById(id));
-        model.addAttribute("types", AdvertisementType.values());
-        return "adForm";
+        model.addAttribute("apa", apartmentService.findById(id));
+        model.addAttribute("municipalities", MunicipalityType.values());
+        return "formapt";
     }
 
     @PostMapping("/apart")
@@ -45,7 +47,9 @@ public class ApartmentsController {
                             @RequestParam List<String> imageUrls,
                             @RequestParam String title){
 
-        this.apartmentService.create( municipality,  address,  numRooms,  size,  imageUrls,title);
+        this.apartmentService.create( municipality,  address,  numRooms,  size,
+                imageUrls.stream().filter(url->url !=null && !url.isEmpty()).collect(Collectors.toList()),
+                title);
 
         return "redirect:/apartments";
     }

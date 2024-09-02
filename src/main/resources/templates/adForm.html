@@ -33,6 +33,17 @@
 
     <button id="submit" type="submit">Submit</button>
     <a id="back" href="/apartments" type="button" class="btn btn-primary">Back to posts</a>
+
+    <a class="edit-item"
+       th:href="@{'/apart/edit/apt/' + ${ad.getApartment().id}}"
+       th:if="${ad != null} and ${ad.getApartment() != null}">
+        Edit your apartment
+    </a>
+    <a class="edit-item"
+       th:href="@{'/apart/add/apt/'}"
+       th:if="${ad == null} or ${ad.getApartment() == null}">
+        Add an apartment
+    </a>
 </form>
 
 <div>

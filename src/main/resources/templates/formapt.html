@@ -46,20 +46,22 @@
     <div>
         <label for="imageUrls">Image URLs</label>
         <div id="imageUrls">
-            <input type="url" name="imageUrls" th:value="${apa?.getImageUrls()?.get(0)}" placeholder="Enter image URL">
-            <input type="url" name="imageUrls" th:value="${apa?.getImageUrls()?.get(1)}" placeholder="Enter image URL">
-            <input type="url" name="imageUrls" th:value="${apa?.getImageUrls()?.get(2)}" placeholder="Enter image URL">
-            <input type="url" name="imageUrls" th:value="${apa?.getImageUrls()?.get(3)}" placeholder="Enter image URL">
-            <input type="url" name="imageUrls" th:value="${apa?.getImageUrls()?.get(4)}" placeholder="Enter image URL">
+            <div th:each="imageUrl, iterStat : ${apa?.getImageUrls()}">
+                <input type="url" name="imageUrls" th:value="${imageUrl}" placeholder="Enter image URL">
+            </div>
+            <div th:each="i : ${#numbers.sequence(1, 10 - (apa?.getImageUrls()?.size() ?: 0))}">
+                <input type="url" name="imageUrls" placeholder="Enter image URL">
+            </div>
         </div>
     </div>
+
     <div>
         <label for="Municipality"> Municipality</label><br/>
         <select id="Municipality" name="municipality" size="5">
-            <!-- For each postType you should have one <option> like below  -->
             <option th:each="mu: ${municipalities}" th:value="${mu}" th:text="${mu.name()}" th:selected="${apa?.municipality?.equals(mu)}">[postType]</option>
         </select>
     </div>
+
     <button id="submit" type="submit">Submit</button>
     <a id="back" href="/apartments" type="button" class="btn btn-primary">Back to main page</a>
 </form>

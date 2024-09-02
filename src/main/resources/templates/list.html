@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+    <!-- The form below should invoke the method PostsController.listAll -->
+    <form id="filter-form">
+        <label for="municipality">Municipality</label>
+        <select id="municipality" name="municipality">
+            <option value="">All</option>
+            <!-- For each tag you should have one <option> like below  -->
+            <option th:each="mu: ${municipalities}" th:value="${mu.name()}" th:text="${mu.name()}"> [tag.name]</option>
+        </select>
+
+        <label for="priceMore">Costs more than</label>
+        <input id="priceMore" name="priceMore" type="number"/>
+
+        <label for="priceLess">Costs less than</label>
+        <input id="priceLess" name="priceLess" type="number"/>
+
+        <label for="avgRatingMore">Has a higher average rating than </label>
+        <input id="avgRatingMore" name="avgRatingMore" type="number"/>
+
+        <label for="avgRatingLess">Has a lower average rating than </label>
+        <input id="avgRatingLess" name="avgRatingLess" type="number"/>
+
+        <label for="numRooms">Has this many number of rooms </label>
+        <input id="numRooms" name="numRooms" type="number"/>
+
+        <label for="sizeMore">Has a size of more square meters than </label>
+        <input id="sizeMore" name="sizeMore" type="number"/>
+
+        <label for="sizeLess">Has a size of less square meters than </label>
+        <input id="sizeLess" name="sizeLess" type="number"/>
+
+        <label for="advertisementType">Rent/Buy</label>
+        <select id="advertisementType" name="advertisementType">
+            <option value="">All</option>
+            <!-- For each postType you should have one <option> like below  -->
+            <option th:each="type:${types}" th:value="${type.name()}" th:text="${type.name()}">[postType]</option>
+        </select>
+        <button id="filter" type="submit">Filter</button>
+    </form>
+    <div>
+        <!-- PostsController.showAdd -->
+        <a href="/posts/add" class="add-item">
+            Add new post
+        </a>
+    </div>
+    <table>
+        <tr>
+            <th>Advertisement Type</th>
+            <th>Price</th>
+            <th>Rating</th>
+            <th>Apartment name</th>
+            <th>Apartment size</th>
+            <th>Number of rooms</th>
+            <th>Municipality</th>
+            <th>Address</th>
+        </tr>
+        <!-- For each post you should have one <tr> like below -->
+        <tr class="item" th:each="ad:${ads}">
+            <td th:text="${ad.getType().name()}">[post.title]</td>
+            <td th:text="${ad.getPrice()}">[post.title]</td>
+            <td th:text="${ad.getRatings().stream().mapToDouble(Double::doubleValue).average().orElse(0.0);}">[post.content]</td>
+            <td th:text="${ad.getApartment().getTitle()}">[post.dateCreated]</td>
+            <td th:text="${ad.getApartment().getSize()}">[post.postType]</td>
+            <td th:text="${ad.getApartment().getNumRooms()}">[post.postType]</td>
+            <td th:text="${ad.getApartment().getMunicipality().name()}">[post.postType]</td>
+            <td th:text="${ad.getApartment().getAddress()}">[post.postType]</td>
+<!--            <td>-->
+<!--                <ul th:each="tag:${post.tags}">-->
+<!--                    &lt;!&ndash; For each post's tag you should display one <li> element like the one below &ndash;&gt;-->
+<!--                    <li th:text="${tag.name}">[tag.name]</li>-->
+<!--                </ul>-->
+<!--            </td>-->
+<!--            <td th:text="${post.likes}">[post.likes]</td>-->
+<!--            <td>-->
+<!--                &lt;!&ndash; PostsController.delete &ndash;&gt;-->
+<!--                <th:block>-->
+<!--                    <form method="post" th:action="@{'/posts/delete/{id}'(id=${post.id})}">-->
+<!--                        <button type="submit" class="delete-item" >Delete</button>-->
+<!--                    </form>-->
+<!--                    &lt;!&ndash; PostsController.showEdit &ndash;&gt;-->
+<!--                    <a class="edit-item" th:href="@{'/posts/edit/{id}'(id=${post.id})}" >Edit</a>-->
+<!--                    &lt;!&ndash; PostsController.like &ndash;&gt;-->
+<!--                </th:block>-->
+<!--                <th:block sec:authorize="hasRole('ROLE_USER')">-->
+<!--                    <form method="post" th:action="@{'/posts/like/{id}'(id=${post.id})}" >-->
+<!--                        <button type="submit" class="like-item">Like</button>-->
+<!--                    </form>-->
+<!--                </th:block>-->
+<!--            </td>-->
+        </tr>
+    </table>
+
+</div>
+<!--<div>-->
+<!--    <ul id="nav">-->
+<!--        <li><a href="/">Home</a></li>-->
+<!--        <li><a href="/login">Login</a></li>-->
+<!--        <li><a href="/logout">Logout</a></li>-->
+<!--    </ul>-->
+<!--</div>-->
+</body>
+</html>

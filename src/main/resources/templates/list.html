@@ -356,8 +356,13 @@
                         <form method="post" th:action="@{'/apartments/delete/ad/{id}'(id=${ad.id})}">
                             <button type="submit" class="delete-item">Delete</button>
                         </form>
-                        <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}">Edit</a>
                     </div>
+                        <div class="card-actions" th:if="${ad.getOwner()!=null}">
+                        <div th:if="${ad.getOwner().getUsername() == #authentication.name}">
+                        <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}">Edit</a>
+                        </div>
+                        </div>
+
                     <div>
                         <a class="edit-item" th:href="@{'/apartments/details/{id}' (id=${ad.id})}">Details</a>
                     </div>

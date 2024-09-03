@@ -1,6 +1,5 @@
 package com.example.proekt.web;
 
-import com.example.proekt.model.AdvertisementType;
 import com.example.proekt.model.MunicipalityType;
 import com.example.proekt.service.ApartmentService;
 import org.springframework.stereotype.Controller;
@@ -29,14 +28,14 @@ public class ApartmentsController {
     @GetMapping("/apart/add/apt")
     public String showApartment(Model model){
         model.addAttribute("municipalities", MunicipalityType.values());
-        return "formapt.html";
+        return "apartForm";
     }
 
     @GetMapping("/apart/edit/apt/{id}")
     public String EditApartment(@PathVariable Long id, Model model) {
         model.addAttribute("apa", apartmentService.findById(id));
         model.addAttribute("municipalities", MunicipalityType.values());
-        return "formapt";
+        return "apartForm";
     }
 
     @PostMapping("/apart")

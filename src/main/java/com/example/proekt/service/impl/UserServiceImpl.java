@@ -38,9 +38,15 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
     @Override
     public User findByUsernameAndPasword(String username, String password) {
         return this.userRepository.findByUsernameAndPassword(username,password).orElseThrow(InvalidUserCredentialsException::new);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(InvalidUsernameOrPasswordException::new);
     }
 
     @Override

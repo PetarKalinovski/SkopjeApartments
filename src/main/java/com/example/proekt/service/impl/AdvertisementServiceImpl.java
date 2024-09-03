@@ -1,13 +1,11 @@
 package com.example.proekt.service.impl;
 
-import com.example.proekt.model.Advertisement;
-import com.example.proekt.model.AdvertisementType;
-import com.example.proekt.model.Apartment;
-import com.example.proekt.model.MunicipalityType;
+import com.example.proekt.model.*;
 import com.example.proekt.model.exceptions.InvalidAddIdException;
 import com.example.proekt.repository.AdvertisementRepository;
 import com.example.proekt.service.AdvertisementService;
 import com.example.proekt.service.ApartmentService;
+import com.example.proekt.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +17,13 @@ import java.util.stream.Collectors;
 public class AdvertisementServiceImpl implements AdvertisementService {
 
     private final AdvertisementRepository advertisementRepository;
+    private final UserService userService;
 
     private final ApartmentService apartmentService;
 
-    public AdvertisementServiceImpl(AdvertisementRepository advertisementRepository, ApartmentService apartmentService) {
+    public AdvertisementServiceImpl(AdvertisementRepository advertisementRepository, UserService userService, ApartmentService apartmentService) {
         this.advertisementRepository = advertisementRepository;
+        this.userService = userService;
         this.apartmentService = apartmentService;
     }
 
@@ -38,9 +38,10 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public Advertisement create(Long apartmentID, AdvertisementType type, Double price) {
+    public Advertisement create(Long apartmentID, AdvertisementType type, Double price, String owner) {
         Apartment apartment= apartmentService.findById(apartmentID);
-        return advertisementRepository.save(new Advertisement(apartment,type, price));
+
+        return advertisementRepository.save(new Advertisement(apartment,type, price, userService.findByUsername(owner)));
     }
 
     @Override

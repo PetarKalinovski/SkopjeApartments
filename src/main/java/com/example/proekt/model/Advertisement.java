@@ -28,13 +28,17 @@ public class Advertisement{
     @ManyToOne
     private Apartment apartment;
 
+    @ManyToOne
+    private User owner;
+
     public Advertisement() {
     }
 
-    public Advertisement(Apartment apartment, AdvertisementType type, Double price) {
+    public Advertisement(Apartment apartment, AdvertisementType type, Double price, User owner) {
         this.apartment = apartment;
         this.type=type;
         this.price=price;
+        this.owner=owner;
     }
 
     public Double getRatingAvg() {

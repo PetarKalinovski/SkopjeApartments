@@ -35,14 +35,12 @@
     <a id="back" href="/apartments" type="button" class="btn btn-primary">Back to posts</a>
 
     <a class="edit-item"
-       th:href="@{'/apart/edit/apt/' + ${ad.getApartment().id}}"
-       th:if="${ad != null} and ${ad.getApartment() != null}">
-        Edit your apartment
+       th:href="@{'/apart/add/apt'}">
+        Add an apartment
     </a>
     <a class="edit-item"
-       th:href="@{'/apart/add/apt/'}"
-       th:if="${ad == null} or ${ad.getApartment() == null}">
-        Add an apartment
+       th:if="${ad != null} and ${ad.getApartment() != null}" th:href="@{'/apart/edit/apt/' + ${ad.getApartment().id}}">
+        Edit your apartment
     </a>
 </form>
 

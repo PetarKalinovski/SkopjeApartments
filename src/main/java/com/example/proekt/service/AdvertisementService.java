@@ -3,6 +3,7 @@ package com.example.proekt.service;
 import com.example.proekt.model.Advertisement;
 import com.example.proekt.model.AdvertisementType;
 import com.example.proekt.model.MunicipalityType;
+import com.example.proekt.model.User;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface AdvertisementService {
 
     Advertisement findById(Long id);
 
-    Advertisement create(Long apartmentID, AdvertisementType type, Double price);
+    Advertisement create(Long apartmentID, AdvertisementType type, Double price, String owner);
 
     Advertisement update(Long id,Long apartmentID, AdvertisementType type, Double price);
 

@@ -1,11 +1,10 @@
 package com.example.proekt.web;
 
-import com.example.proekt.model.Advertisement;
-import com.example.proekt.model.AdvertisementType;
-import com.example.proekt.model.Apartment;
-import com.example.proekt.model.MunicipalityType;
+import com.example.proekt.model.*;
 import com.example.proekt.service.AdvertisementService;
 import com.example.proekt.service.ApartmentService;
+import com.example.proekt.service.UserService;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +21,11 @@ public class AdvertismentsController {
     private final AdvertisementService advertisementService;
     private final ApartmentService apartmentService;
 
-    public AdvertismentsController(AdvertisementService advertisementService, ApartmentService apartmentService) {
+    private final UserService userService;
+    public AdvertismentsController(AdvertisementService advertisementService, ApartmentService apartmentService, UserService userService) {
         this.advertisementService = advertisementService;
         this.apartmentService = apartmentService;
+        this.userService = userService;
     }
 
     @GetMapping("/apartments")
@@ -72,13 +73,18 @@ public class AdvertismentsController {
 
 
     @PostMapping("/apartments")
-    public String createAd(@RequestParam Long apartment,@RequestParam AdvertisementType type,@RequestParam Double price){
-        this.advertisementService.create(apartment,type,price);
+    public String createAd(@RequestParam Long apartment,@RequestParam AdvertisementType type,@RequestParam Double price, Principal principal){
+        String username=principal.getName();
+        this.advertisementService.create(apartment,type,price,username);
         return "redirect:/apartments";
     }
 
     @PostMapping("/apartments/{id}")
-    public String editAd(@PathVariable Long id, @RequestParam Long apartment,@RequestParam AdvertisementType type,@RequestParam Double price){
+    public String editAd(@PathVariable Long id, @RequestParam Long apartment,@RequestParam AdvertisementType type,@RequestParam Double price, Principal principal){
+        User user=userService.findByUsername(principal.getName());
+        if(! advertisementService.findById(id).getOwner().equals(user)){
+            throw new AccessDeniedException("You do not have permission to edit this advertisement");
+        }
         this.advertisementService.update(id,apartment,type,price);
         return "redirect:/apartments";
     }

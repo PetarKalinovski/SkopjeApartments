@@ -1,5 +1,6 @@
 package com.example.proekt.web;
 
+import com.example.proekt.model.Advertisement;
 import com.example.proekt.model.Message;
 import com.example.proekt.model.MessageThread;
 import com.example.proekt.model.User;
@@ -12,7 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/messages")
@@ -35,19 +38,15 @@ public class MessagesController {
         this.advertisementService = advertisementService;
     }
 
-    @GetMapping("/conversation")
-    public String firstTimeConversation(@RequestParam Long ad, Principal principal, Model model){
-        String username=principal.getName();
-        String user2=advertisementService.findById(ad).getOwner().getUsername();
-        MessageThread messageThread=messageThreadService.create(username,user2,ad);
-
-        model.addAttribute("threadId", messageThread.getId());
-
-        return "messageThread";
-    }
+//    @GetMapping("/conversation")
+//    public String firstTimeConversation(@RequestParam Long ad, Principal principal, Model model){
+//
+//
+//        return "messageThread";
+//    }
 
     @GetMapping("/conversation/{id}")
-    public String openConversation(@PathVariable Long id,@RequestParam Long adv, Model model, Principal principal) {
+    public String openConversation(@PathVariable Long id, Model model, Principal principal) {
         MessageThread messageThread=messageThreadService.findById(id);
 
         model.addAttribute("threadId", id);
@@ -69,6 +68,14 @@ public class MessagesController {
         messageThreadService.addAMessage(mst.getId(), m.getId());
 
         return "redirect:/messages/conversation/" + mst.getId();
+    }
+
+    @GetMapping("/conversation/all/{id}")
+    public String listMessages(@PathVariable Long id, Model model){
+        List<MessageThread> messageThreads=messageThreadService.findAllByAdvertisement(id);
+        model.addAttribute("threadIds", messageThreads.stream().map(MessageThread::getId).collect(Collectors.toList()));
+
+        return "listThreads";
     }
 }
 

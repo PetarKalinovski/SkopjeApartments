@@ -22,7 +22,7 @@ public class MessageThread {
 
     @ManyToOne
     private Advertisement advertisement;
-    @OneToMany(mappedBy = "messageThread")
+    @OneToMany()
     private List<Message> messages = new ArrayList<>();
 
     public MessageThread() {}

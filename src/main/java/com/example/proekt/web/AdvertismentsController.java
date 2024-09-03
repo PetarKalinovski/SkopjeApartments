@@ -3,6 +3,7 @@ package com.example.proekt.web;
 import com.example.proekt.model.*;
 import com.example.proekt.service.AdvertisementService;
 import com.example.proekt.service.ApartmentService;
+import com.example.proekt.service.MessageThreadService;
 import com.example.proekt.service.UserService;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
@@ -22,10 +23,13 @@ public class AdvertismentsController {
     private final ApartmentService apartmentService;
 
     private final UserService userService;
-    public AdvertismentsController(AdvertisementService advertisementService, ApartmentService apartmentService, UserService userService) {
+
+    private final MessageThreadService messageThreadService;
+    public AdvertismentsController(AdvertisementService advertisementService, ApartmentService apartmentService, UserService userService, MessageThreadService messageThreadService) {
         this.advertisementService = advertisementService;
         this.apartmentService = apartmentService;
         this.userService = userService;
+        this.messageThreadService = messageThreadService;
     }
 
     @GetMapping("/apartments")
@@ -63,11 +67,24 @@ public class AdvertismentsController {
     }
 
     @GetMapping("/apartments/details/{id}")
-    public String detailsApartments(@PathVariable Long id, Model model) {
+    public String detailsApartments(@PathVariable Long id, Model model, Principal principal) {
         model.addAttribute("ad", advertisementService.findById(id));
         model.addAttribute("apartments", apartmentService.listAll());
         model.addAttribute("municipalities", MunicipalityType.values());
         model.addAttribute("types", AdvertisementType.values());
+
+        String username=principal.getName();
+        String user2=advertisementService.findById(id).getOwner().getUsername();
+        MessageThread messageThread;
+            if(messageThreadService.findByUser1AndUser2AndAdvertisement(username,user2,id)==null){
+                messageThread=messageThreadService.create(username,user2,id);
+            }
+            else
+                messageThread=messageThreadService.findByUser1AndUser2AndAdvertisement(username,user2,id);
+            model.addAttribute("threadId", messageThread.getId());
+
+
+
         return "details";
     }
 
@@ -101,6 +118,7 @@ public class AdvertismentsController {
             String username = principal.getName();
             advertisementService.addRating(rating,id,username);
         }
+
         return "redirect:/apartments/details/" + id;
     }
     @PostMapping("/apartments/comments/{id}")

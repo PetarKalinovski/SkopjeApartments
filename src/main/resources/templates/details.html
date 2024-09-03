@@ -365,7 +365,9 @@
 
     </div>
 
+    <a th:if="${ad.getOwner().getUsername() != #authentication.name}" class="edit-item" th:href="@{'/messages/conversation/{id}'(id=${threadId})}">Chat with the owner</a>
 
+    <a th:if="${ad.getOwner().getUsername() == #authentication.name}" th:href="@{'/messages/conversation/all/{id}'(id=${ad.getId()})}">See messages</a>
 </div>
 
 <footer>

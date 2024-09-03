@@ -86,6 +86,7 @@
         <div th:each="message : ${messages}">
             <!-- Determine if the message was sent or received based on the current user -->
             <div th:classappend="${message.sender.username} == ${currentUser.username} ? 'message sent' : 'message received'">
+                <p th:text="'Username: '+${message.getSender().username}"> </p>
                 <p th:text="${message.content}">Message content here</p>
                 <small th:text="${message.sentAt}">Timestamp</small>
             </div>

@@ -1,5 +1,6 @@
 package com.example.proekt.service.impl;
 
+import com.example.proekt.model.Advertisement;
 import com.example.proekt.model.Message;
 import com.example.proekt.model.MessageThread;
 import com.example.proekt.model.exceptions.InvalidMessageThreadData;
@@ -45,6 +46,8 @@ public class MessageThreadServiceImpl implements MessageThreadService {
       return this.messageThreadRepository.save(msgt);
     }
 
+
+
     @Override
     public MessageThread create( String user1, String user2, Long a) {
         List<Message> messages=new ArrayList<>();
@@ -53,9 +56,23 @@ public class MessageThreadServiceImpl implements MessageThreadService {
     }
 
     @Override
+    public List<MessageThread> findAllByAdvertisement(Long advertisement) {
+      return this.messageThreadRepository.findAllByAdvertisement(advertisementService.findById(advertisement));
+    }
+
+    @Override
     public MessageThread findByUser1AndUser2AndAdvertisement(String user1, String user2, Long a) {
-       return  messageThreadRepository.findByUser1AndUser2AndAdvertisement(userService.findByUsername(user1),
-                userService.findByUsername(user2),advertisementService.findById(a)).orElseThrow(InvalidMessageThreadData::new);
+       MessageThread messageThread= messageThreadRepository.findByUser1AndUser2AndAdvertisement(userService.findByUsername(user1),
+               userService.findByUsername(user2),advertisementService.findById(a)).orElse(null);
+        MessageThread messageThread2=messageThreadRepository.findByUser1AndUser2AndAdvertisement(userService.findByUsername(user2),
+                userService.findByUsername(user1),advertisementService.findById(a)).orElse(null);
+       if (messageThread!=null){
+           return messageThread;
+       }
+       else if (messageThread2!=null)
+         return messageThread2;
+
+       else return null;
     }
 
 

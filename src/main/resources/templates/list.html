@@ -219,10 +219,40 @@
         }
 
 
-        /* Range slider styling */
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+
         input[type="range"] {
-            width: calc(100% - 22px);
-            margin-bottom: 10px;
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #ddd;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+
+        input[type="range"]:hover {
+            opacity: 1;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #007BFF;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .range-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
         }
 
         #priceRangeValue, #ratingRangeValue, #sizeRangeValue {
@@ -341,32 +371,43 @@
                 <option th:each="mu: ${municipalities}" th:value="${mu.name()}" th:text="${mu.name()}">[tag.name]</option>
             </select>
 
-            <label for="priceMore">Costs more than</label>
-            <input id="priceMore" name="priceMore" type="number"/>
+            <!-- Price range slider -->
+            <label for="priceRange">Price Range</label>
+            <div class="range-container" id="priceRange">
+                <input id="priceMore" name="priceMore" type="range" min="0" max="1000000" value="0" oninput="updatePriceRange()">
+                <input id="priceLess" name="priceLess" type="range" min="0" max="1000000" value="1000000" oninput="updatePriceRange()">
+                <div class="range-values">
+                    <span id="priceMinValue">0</span> - <span id="priceMaxValue">1000000</span> EUR
+                </div>
+            </div>
 
-            <label for="priceLess">Costs less than</label>
-            <input id="priceLess" name="priceLess" type="number"/>
-
-            <label for="avgRatingMore">Has a higher average rating than </label>
-            <input id="avgRatingMore" name="avgRatingMore" type="number"/>
-
-            <label for="avgRatingLess">Has a lower average rating than </label>
-            <input id="avgRatingLess" name="avgRatingLess" type="number"/>
-
-            <label for="numRooms">Has this many number of rooms </label>
+            <!-- Average Rating Range Slider -->
+            <label for="ratingRange">Average Rating Range</label>
+            <div class="range-container" id="ratingRange">
+                <input id="avgRatingMore" name="avgRatingMore" type="range" min="0" max="5" step="0.1" value="0" oninput="updateRatingRange()">
+                <input id="avgRatingLess" name="avgRatingLess" type="range" min="0" max="5" step="0.1" value="5" oninput="updateRatingRange()">
+                <div class="range-values">
+                    <span id="ratingMinValue">0</span> - <span id="ratingMaxValue">5</span>
+                </div>
+            </div>
+            <!-- Size range slider -->
+            <label for="sizeRange">Size Range</label>
+            <div id="sizeRange">
+            <input type="range" id="sizeMin" name="sizeMin" min="0" max="1000"  value="0" oninput="">
+            <input type="range" id="sizeMax" name="sizeMax" min="0" max="1000"  value="10000">
+            <span id="sizeRangeValue">0 - 10000</span>
+            </div>
+            <!-- Number of rooms input -->
+            <label for="numRooms">Number of Rooms</label>
             <input id="numRooms" name="numRooms" type="number"/>
 
-            <label for="sizeMore">Has a size of more square meters than </label>
-            <input id="sizeMore" name="sizeMore" type="number"/>
-
-            <label for="sizeLess">Has a size of less square meters than </label>
-            <input id="sizeLess" name="sizeLess" type="number"/>
-
+            <!-- Advertisement Type selection -->
             <label for="advertisementType">Rent/Buy</label>
             <select id="advertisementType" name="advertisementType">
                 <option value="">All</option>
                 <option th:each="type:${types}" th:value="${type.name()}" th:text="${type.name()}">[postType]</option>
             </select>
+
             <button id="filter" type="submit">Filter</button>
         </form>
     </div>
@@ -429,6 +470,27 @@
             dropdownBtn.classList.remove("active");
             dropdownBtn.textContent = "Show Filters";
         }
+    }
+
+    function updatePriceRange() {
+        const priceMin = document.getElementById('priceMore');
+        const priceMax = document.getElementById('priceLess');
+        document.getElementById('priceMinValue').textContent = priceMin.value;
+        document.getElementById('priceMaxValue').textContent = priceMax.value;
+    }
+
+    function updateRatingRange() {
+        const ratingMin = document.getElementById('avgRatingMore');
+        const ratingMax = document.getElementById('avgRatingLess');
+        document.getElementById('ratingMinValue').textContent = ratingMin.value;
+        document.getElementById('ratingMaxValue').textContent = ratingMax.value;
+    }
+
+    function updateSizeRange(){
+        const sizeMin = document.getElementById('sizeMin');
+        const sizeMax = document.getElementById('sizeMax');
+        document.getElementById('sizeMin').textContent = sizeMin.value;
+        document.getElementById('sizeMax').textContent = sizeMax.value;
     }
 </script>
 

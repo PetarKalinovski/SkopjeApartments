@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Message Thread</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-thread {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .message.sent {
+            background-color: #e0f7fa;
+            text-align: right;
+        }
+
+        .message.received {
+            background-color: #e1bee7;
+            text-align: left;
+        }
+
+        .message p {
+            margin: 0;
+        }
+
+        .message small {
+            display: block;
+            margin-top: 5px;
+            color: #888;
+        }
+
+        .send-message {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .send-message textarea {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .send-message button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .send-message button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Conversation</h1>
+
+    <div class="message-thread">
+        <div th:each="message : ${messages}">
+            <!-- Determine if the message was sent or received based on the current user -->
+            <div th:classappend="${message.sender.username} == ${currentUser.username} ? 'message sent' : 'message received'">
+                <p th:text="${message.content}">Message content here</p>
+                <small th:text="${message.sentAt}">Timestamp</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="send-message">
+        <form th:action="@{'/messages/send/' + ${threadId}}" method="post">
+            <textarea name="content" rows="3" placeholder="Type your message..."></textarea>
+            <input type="hidden" name="user" th:value="${currentUser.username}">
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

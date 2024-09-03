@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+
 <style>
     /* General container styling to center content */
     .container {
@@ -8,6 +13,7 @@
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         text-align: center;
+        font-family: Arial, sans-serif;
 
     }
 
@@ -81,6 +87,8 @@
         font-size: 14px;
     }
 </style>
+</head>
+<body>
 <div class="container" xmlns:th="http://www.thymeleaf.org">
     <form class="form-signin mt-xl-5" method="post" action="/login">
         <h2 class="form-signin-heading">Sign in</h2>
@@ -101,3 +109,5 @@
     </form>
     <a href="/register" class="btn btn-block btn-light">Register here</a>
 </div>
+</body>
+</html>

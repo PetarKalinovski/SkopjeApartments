@@ -352,7 +352,7 @@
                         <span th:text="${ad.getApartment().getMunicipality().name()}">Municipality Name</span><br>
                         <span th:text="${ad.getApartment().getAddress()}">123 Main St.</span>
                     </p>
-                    <div class="card-actions">
+                    <div class="card-actions" sec:authorize="hasRole('ROLE_ADMIN')">
                         <form method="post" th:action="@{'/apartments/delete/ad/{id}'(id=${ad.id})}">
                             <button type="submit" class="delete-item">Delete</button>
                         </form>

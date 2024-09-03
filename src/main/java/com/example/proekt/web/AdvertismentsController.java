@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -89,9 +90,10 @@ public class AdvertismentsController {
     }
 
     @PostMapping("/apartments/rate/{id}")
-    public String rateApartment(@PathVariable Long id, @RequestParam Double rating) {
+    public String rateApartment(@PathVariable Long id, @RequestParam Double rating, Principal principal) {
         if (rating >= 1 && rating <= 5) {
-            advertisementService.addRating(rating,id);
+            String username = principal.getName();
+            advertisementService.addRating(rating,id,username);
         }
         return "redirect:/apartments/details/" + id;
     }

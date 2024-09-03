@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
@@ -14,7 +15,7 @@ public class Advertisement{
     private Long id;
 
     @ElementCollection
-    private List<Double> ratings;
+    private Map<String,Double> ratings;
 
     @ElementCollection
     private List<String> comments;
@@ -37,8 +38,8 @@ public class Advertisement{
     }
 
     public Double getRatingAvg() {
-        List<Double> ratings= this.getRatings();
-        Double avg= ratings.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+        Map<String,Double> ratings= this.getRatings();
+        Double avg= ratings.values().stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
         return avg;
     }
 }

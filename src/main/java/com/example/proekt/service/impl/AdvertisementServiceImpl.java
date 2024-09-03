@@ -11,6 +11,7 @@ import com.example.proekt.service.ApartmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -53,19 +54,17 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
-    public Advertisement addRating(Double rating, Long id) {
+    public Advertisement addRating(Double rating, Long id, String username) {
         Advertisement advertisement= this.findById(id);
-        List<Double> ratings= advertisement.getRatings();
-        ratings.add(rating);
-        advertisement.setRatings(ratings);
+        advertisement.getRatings().put(username,rating);
         return advertisementRepository.save(advertisement);
     }
 
     @Override
     public Double ratingAvg(Long id) {
         Advertisement advertisement= this.findById(id);
-        List<Double> ratings= advertisement.getRatings();
-        Double avg= ratings.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+        Map<String,Double> ratings= advertisement.getRatings();
+        Double avg= ratings.values().stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
         return avg;
     }
 

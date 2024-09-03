@@ -17,7 +17,7 @@ public interface AdvertisementService {
 
     Advertisement update(Long id,Long apartmentID, AdvertisementType type, Double price);
 
-    Advertisement addRating(Double rating, Long id);
+    Advertisement addRating(Double rating, Long id, String username);
 
     Double ratingAvg(Long id);
 

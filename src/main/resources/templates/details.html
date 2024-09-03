@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Apartment Details</title>
@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
             margin: 0;
-            padding: 20px;
+            padding-top: 30px;
         }
 
         .container {
@@ -118,6 +118,40 @@
             cursor: pointer;
         }
 
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        /* Navigation arrow styling */
+        .lightbox-prev, .lightbox-next {
+            cursor: pointer;
+            position: fixed;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 24px;
+            transition: 0.3s;
+            user-select: none;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .lightbox-prev:hover, .lightbox-next:hover {
+            color: #dddddd;
+        }
+
         /* Star rating styles */
         .star-rating {
             display: flex;
@@ -159,9 +193,95 @@
             margin: 0;
             font-size: 0.9em;
         }
+
+        .toolbar {
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .toolbar-element{
+            margin-right: 40px;
+        }
+        .toolbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+        }
+
+        .toolbar a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+         button:hover {
+            background-color: #0056b3;
+        }
+        .add-rating form {
+            text-align: center;
+        }
+
+        .add-comment {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-comment h2 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #333;
+        }
+
+
+        .add-comment textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
+<div class="toolbar">
+    <div class="toolbar-element">
+        <a id="back" href="/apartments" type="button" class="btn btn-primary">Back to main page</a>
+    </div>
+    <div class="toolbar-element " sec:authorize="!isAuthenticated()">
+        <a href="/login">Login</a>
+    </div>
+    <div class="toolbar-element " sec:authorize="!isAuthenticated()">
+        <a href="/register">Register</a>
+    </div>
+    <div class="toolbar-element" >
+        <a href="/apartments/add/ad">Add an Ad</a>
+    </div>
+    <div class="toolbar-element">
+        <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+    </div>
+
+</div>
+
 <div class="container">
     <!-- Apartment Title -->
     <h1 th:text="${ad.getApartment().getTitle()}">Apartment Title</h1>
@@ -179,9 +299,12 @@
     <div class="lightbox" id="lightbox">
         <span class="lightbox-close" id="lightbox-close">&times;</span>
         <div class="lightbox-content">
+            <span class="lightbox-prev" id="lightbox-prev">&#10094;</span>
             <img id="lightbox-img" src="" alt="Large view">
+            <span class="lightbox-next" id="lightbox-next">&#10095;</span>
         </div>
     </div>
+
 
     <!-- Apartment Details -->
     <div class="details-section">
@@ -218,7 +341,7 @@
                     <input type="radio" id="1-star" name="rating" value="1">
                     <label for="1-star">&#9733;</label>
                 </div>
-                <button type="submit">Submit Rating</button>
+                <button class="btn-1" type="submit">Submit Rating</button>
             </form>
         </div>
 
@@ -242,7 +365,7 @@
 
     </div>
 
-    <a id="back" href="/apartments" type="button" class="btn btn-primary">Back to main page</a>
+
 </div>
 
 <footer>
@@ -253,25 +376,47 @@
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const closeBtn = document.getElementById('lightbox-close');
+    const prevBtn = document.getElementById('lightbox-prev');
+    const nextBtn = document.getElementById('lightbox-next');
     const imageLinks = document.querySelectorAll('.image-link');
 
-    imageLinks.forEach(link => {
+    let currentImageIndex = 0;
+    const imageArray = Array.from(imageLinks).map(link => link.href);
+
+    imageLinks.forEach((link, index) => {
         link.addEventListener('click', function (event) {
             event.preventDefault();
-            lightbox.style.display = 'flex';
-            lightboxImg.src = this.href;
+            currentImageIndex = index;
+            openLightbox(imageArray[currentImageIndex]);
         });
     });
 
-    closeBtn.addEventListener('click', function () {
-        lightbox.style.display = 'none';
-    });
-
+    closeBtn.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', function (event) {
         if (event.target === lightbox) {
-            lightbox.style.display = 'none';
+            closeLightbox();
         }
     });
+
+    prevBtn.addEventListener('click', function () {
+        currentImageIndex = (currentImageIndex === 0) ? imageArray.length - 1 : currentImageIndex - 1;
+        openLightbox(imageArray[currentImageIndex]);
+    });
+
+    nextBtn.addEventListener('click', function () {
+        currentImageIndex = (currentImageIndex === imageArray.length - 1) ? 0 : currentImageIndex + 1;
+        openLightbox(imageArray[currentImageIndex]);
+    });
+
+    function openLightbox(imageSrc) {
+        lightbox.style.display = 'flex';
+        lightboxImg.src = imageSrc;
+    }
+
+    function closeLightbox() {
+        lightbox.style.display = 'none';
+    }
+
 </script>
 
 

@@ -219,10 +219,25 @@
         }
 
 
+        .range-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
         .range-values {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-top: 5px;
+        }
+
+        .range-values input[type="number"] {
+            width: 70px;
+            padding: 5px;
+            margin: 0 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
         }
 
         input[type="range"] {
@@ -234,6 +249,7 @@
             outline: none;
             opacity: 0.7;
             transition: opacity .2s;
+            margin-bottom: 10px;
         }
 
         input[type="range"]:hover {
@@ -248,11 +264,6 @@
             background: #007BFF;
             cursor: pointer;
             border-radius: 50%;
-        }
-        .range-container {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
         }
 
         #priceRangeValue, #ratingRangeValue, #sizeRangeValue {
@@ -339,7 +350,7 @@
     <a href="/register">Register</a>
     </div>
     <div class="toolbar-element" >
-    <a href="/apartments/add/ad">Add Post</a>
+    <a href="/apartments/add/ad">Add an Ad</a>
     </div>
     <div class="toolbar-element">
     <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
@@ -377,26 +388,36 @@
                 <input id="priceMore" name="priceMore" type="range" min="0" max="1000000" value="0" oninput="updatePriceRange()">
                 <input id="priceLess" name="priceLess" type="range" min="0" max="1000000" value="1000000" oninput="updatePriceRange()">
                 <div class="range-values">
-                    <span id="priceMinValue">0</span> - <span id="priceMaxValue">1000000</span> EUR
+                    <input type="number" id="priceMinInput" min="0" max="1000000" value="0" oninput="updatePriceFromInput()">
+                    <span> - </span>
+                    <input type="number" id="priceMaxInput" min="0" max="1000000" value="1000000" oninput="updatePriceFromInput()">
+                    <span> EUR</span>
                 </div>
             </div>
 
-            <!-- Average Rating Range Slider -->
+            <!-- Average Rating Range Slider with Inputs -->
             <label for="ratingRange">Average Rating Range</label>
             <div class="range-container" id="ratingRange">
                 <input id="avgRatingMore" name="avgRatingMore" type="range" min="0" max="5" step="0.1" value="0" oninput="updateRatingRange()">
                 <input id="avgRatingLess" name="avgRatingLess" type="range" min="0" max="5" step="0.1" value="5" oninput="updateRatingRange()">
                 <div class="range-values">
-                    <span id="ratingMinValue">0</span> - <span id="ratingMaxValue">5</span>
+                    <input type="number" id="ratingMinInput" min="0" max="5" step="0.1" value="0" oninput="updateRatingFromInput()">
+                    <span> - </span>
+                    <input type="number" id="ratingMaxInput" min="0" max="5" step="0.1" value="5" oninput="updateRatingFromInput()">
                 </div>
             </div>
             <!-- Size range slider -->
             <label for="sizeRange">Size Range</label>
             <div id="sizeRange">
-            <input type="range" id="sizeMin" name="sizeMin" min="0" max="1000"  value="0" oninput="">
-            <input type="range" id="sizeMax" name="sizeMax" min="0" max="1000"  value="10000">
-            <span id="sizeRangeValue">0 - 10000</span>
+            <input type="range" id="sizeMore" name="sizeMore" min="0" max="2000"  value="0" oninput="updateSizeRange()">
+            <input type="range" id="sizeLess" name="sizeLess" min="0" max="2000"  value="2000" oninput="updateSizeRange()">
+            <div class="range-values">
+                <input type="number" id="sizeMinInput" min="0" max="2000" value="0" oninput="updateSizeFromInput()">
+               <span> - </span>
+                <input type="number" id="sizeMaxInput" min="0" max="2000"  value="2000" oninput="updateSizeFromInput()">
             </div>
+            </div>
+
             <!-- Number of rooms input -->
             <label for="numRooms">Number of Rooms</label>
             <input id="numRooms" name="numRooms" type="number"/>
@@ -475,22 +496,64 @@
     function updatePriceRange() {
         const priceMin = document.getElementById('priceMore');
         const priceMax = document.getElementById('priceLess');
-        document.getElementById('priceMinValue').textContent = priceMin.value;
-        document.getElementById('priceMaxValue').textContent = priceMax.value;
+        const priceMinInput = document.getElementById('priceMinInput');
+        const priceMaxInput = document.getElementById('priceMaxInput');
+
+        // Update input fields based on slider values
+        priceMinInput.value = priceMin.value;
+        priceMaxInput.value = priceMax.value;
+    }
+
+    function updatePriceFromInput() {
+        const priceMin = document.getElementById('priceMore');
+        const priceMax = document.getElementById('priceLess');
+        const priceMinInput = document.getElementById('priceMinInput');
+        const priceMaxInput = document.getElementById('priceMaxInput');
+
+        // Update slider values based on input fields
+        priceMin.value = priceMinInput.value;
+        priceMax.value = priceMaxInput.value;
     }
 
     function updateRatingRange() {
         const ratingMin = document.getElementById('avgRatingMore');
         const ratingMax = document.getElementById('avgRatingLess');
-        document.getElementById('ratingMinValue').textContent = ratingMin.value;
-        document.getElementById('ratingMaxValue').textContent = ratingMax.value;
+        const ratingMinInput = document.getElementById('ratingMinInput');
+        const ratingMaxInput = document.getElementById('ratingMaxInput');
+
+        ratingMinInput.value = ratingMin.value;
+        ratingMaxInput.value = ratingMax.value;
+    }
+
+    function updateRatingFromInput() {
+        const ratingMin = document.getElementById('avgRatingMore');
+        const ratingMax = document.getElementById('avgRatingLess');
+        const ratingMinInput = document.getElementById('ratingMinInput');
+        const ratingMaxInput = document.getElementById('ratingMaxInput');
+
+
+        ratingMin.value = ratingMinInput.value;
+        ratingMax.value = ratingMaxInput.value;
     }
 
     function updateSizeRange(){
-        const sizeMin = document.getElementById('sizeMin');
-        const sizeMax = document.getElementById('sizeMax');
-        document.getElementById('sizeMin').textContent = sizeMin.value;
-        document.getElementById('sizeMax').textContent = sizeMax.value;
+        const sizeMin = document.getElementById('sizeMore');
+        const sizeMax = document.getElementById('sizeLess');
+        const sizeMinInput= document.getElementById('sizeMinInput')
+        const sizeMaxInput= document.getElementById('sizeMaxInput')
+
+        sizeMinInput.value=sizeMin.value;
+        sizeMaxInput.value=sizeMax.value;
+    }
+
+    function updateSizeFromInput(){
+        const sizeMin = document.getElementById('sizeMore');
+        const sizeMax = document.getElementById('sizeLess');
+        const sizeMinInput= document.getElementById('sizeMinInput')
+        const sizeMaxInput= document.getElementById('sizeMaxInput')
+
+        sizeMin.value=sizeMinInput.value;
+        sizeMax.value=sizeMaxInput.value;
     }
 </script>
 

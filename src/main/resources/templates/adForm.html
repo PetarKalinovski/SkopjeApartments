@@ -4,6 +4,22 @@
     <title>Add</title>
 </head>
 <body>
+<style>
+    footer {
+        background-color: #007BFF; /* Blue color */
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    footer p {
+        margin: 0;
+        font-size: 0.9em;
+    }
+</style>
 <!-- The form should submit to PostsController.create or PostsController.update,
      depending on whether we are creating or editing a post -->
 
@@ -52,6 +68,10 @@
         <li><a href="/apart/add/apt">Create an apartment</a></li>
     </ul>
 </div>
+
+<footer>
+    <p>&copy; 2024 Apartment Finder. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

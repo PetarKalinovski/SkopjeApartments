@@ -143,6 +143,22 @@
         .star-rating label:hover ~ label {
             color: #FFD700; /* Gold color for stars when selected or hovered */
         }
+
+        footer {
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            bottom: 0;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -229,6 +245,9 @@
     <a id="back" href="/apartments" type="button" class="btn btn-primary">Back to main page</a>
 </div>
 
+<footer>
+    <p>&copy; 2024 Apartment Finder. All rights reserved.</p>
+</footer>
 <!-- JavaScript for lightbox functionality -->
 <script>
     const lightbox = document.getElementById('lightbox');
@@ -254,5 +273,9 @@
         }
     });
 </script>
+
+
 </body>
+
+
 </html>

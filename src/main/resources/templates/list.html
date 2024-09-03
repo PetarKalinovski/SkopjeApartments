@@ -12,59 +12,85 @@
             padding: 0;
         }
 
-        /* Main container styling to hold both sidebar and content */
+        /* Toolbar styling */
+        .toolbar {
+            background-color: #007BFF; /* Blue color */
+            color: white;
+            display: flex;
+            justify-content: flex-end;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .toolbar-element{
+            margin-right: 40px;
+        }
+        .toolbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+        }
+
+        .toolbar a:hover {
+            text-decoration: underline;
+        }
+
         /* Main container styling to hold both sidebar and content */
         .main-container {
             display: flex;
             flex-direction: row;
-            align-items: flex-start; /* Align children to the start of the container */
-            max-width: 1200px;
-            margin: 0 auto;
+            align-items: flex-start;
+            margin: 60px auto 20px; /* Adjust for toolbar height */
             padding: 20px;
-            gap: 40px; /* Increased space between sidebar and card container */
+            gap: 40px;
         }
 
         /* Sidebar styling */
         .sidebar {
-            flex: 0 0 250px; /* Fixed width for the sidebar */
+            flex: 0 0 250px;
             background-color: #ffffff;
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            height: auto; /* Let the content define the height */
-            position: absolute; /* Makes the sidebar fixed to the left */
-            left: 20px; /* Distance from the left edge */
-            top: 400px; /* Adjust as needed based on the header height */
+            height: auto;
+            margin-top: -80px;
+            /*position: absolute;*/
+            /*left: 20px;*/
+            /*top: 200px;*/
         }
 
         /* Content adjustment when sidebar is fixed */
         .content-container {
-            margin-left: 300px; /* Width of the sidebar + additional space */
-            flex: 1; /* Takes the remaining space next to the sidebar */
+            /*margin-left: 50px;*/
+            flex: 1;
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             justify-content: center;
         }
 
-
         .sidebar #filter-form {
-            display: block; /* Sidebar filter form always visible */
+            display: block;
         }
 
         /* Card container styling */
         .card-container {
-            flex: 1; /* Takes the remaining space next to the sidebar */
+            flex: 1;
             display: flex;
+            margin-left: 100px;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center;
+            justify-content: flex-start;
         }
 
         /* Header container */
         .header-container {
             position: relative;
-            height: 400px; /* Adjust height as needed */
+            height: 400px;
             overflow: hidden;
             color: white;
             text-align: center;
@@ -80,10 +106,8 @@
             background: url('https://content.r9cdn.net/rimg/dimg/98/9a/27fe7b67-city-18146-165110baf30.jpg?crop=true&width=1366&height=768&xhint=1851&yhint=1035') no-repeat center center;
             background-size: cover;
             z-index: 1;
-            filter: brightness(65%); /* Darken the background image */
+            filter: brightness(65%);
         }
-
-
 
         /* Text content */
         .header-content {
@@ -93,9 +117,9 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100%; /* Full height to center content vertically */
+            height: 100%;
             text-align: center;
-            padding: 0 20px; /* Adjust padding as needed */
+            padding: 0 20px;
         }
 
         .header-content h1 {
@@ -113,11 +137,10 @@
 
         /* Footer styling */
         footer {
-            background-color: #007BFF; /* Blue color */
+            background-color: #007BFF;
             color: white;
             text-align: center;
             padding: 10px 0;
-            position: fixed;
             width: 100%;
             bottom: 0;
         }
@@ -137,7 +160,7 @@
         /* Dropdown button to toggle filter form */
         .dropdown-btn {
             cursor: pointer;
-            background-color: #007BFF; /* Blue color */
+            background-color: #007BFF;
             color: white;
             border: none;
             padding: 10px;
@@ -149,18 +172,18 @@
         }
 
         .dropdown-btn:after {
-            content: '\25bc'; /* Unicode character for downward triangle */
+            content: '\25bc';
             float: right;
             margin-left: 10px;
         }
 
         .dropdown-btn.active:after {
-            content: '\25b2'; /* Unicode character for upward triangle */
+            content: '\25b2';
         }
 
         /* Filter form styling */
         #filter-form {
-            display: none; /* Hidden by default */
+            display: none;
             background-color: #ffffff;
             padding: 20px;
             border-radius: 5px;
@@ -183,7 +206,7 @@
         }
 
         #filter-form button {
-            background-color: #007BFF; /* Blue color */
+            background-color: #007BFF;
             color: white;
             padding: 10px 15px;
             border: none;
@@ -192,7 +215,20 @@
         }
 
         #filter-form button:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
+        }
+
+
+        /* Range slider styling */
+        input[type="range"] {
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+        }
+
+        #priceRangeValue, #ratingRangeValue, #sizeRangeValue {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
         }
 
         .card {
@@ -202,6 +238,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             overflow: hidden;
+            margin-left: 20px;
             text-align: center;
         }
 
@@ -225,9 +262,10 @@
             margin-top: 10px;
         }
 
+
         .add-item {
             display: inline-block;
-            background-color: #007BFF; /* Blue color */
+            background-color: #007BFF;
             color: white;
             padding: 10px 15px;
             border-radius: 3px;
@@ -236,7 +274,7 @@
         }
 
         .add-item:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
 
         .card-actions {
@@ -244,7 +282,7 @@
         }
 
         .card-actions button, .card-actions a {
-            background-color: #007BFF; /* Blue color */
+            background-color: #007BFF;
             color: white;
             padding: 5px 10px;
             border: none;
@@ -256,40 +294,50 @@
         }
 
         .card-actions button:hover, .card-actions a:hover {
-            background-color: #0056b3; /* Darker blue on hover */
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<!-- Header container -->
+<!-- Toolbar -->
+<div class="toolbar">
+    <div class="toolbar-element " sec:authorize="!isAuthenticated()">
+    <a href="/login">Login</a>
+    </div>
+    <div class="toolbar-element " sec:authorize="!isAuthenticated()">
+    <a href="/register">Register</a>
+    </div>
+    <div class="toolbar-element" >
+    <a href="/apartments/add/ad">Add Post</a>
+    </div>
+    <div class="toolbar-element">
+    <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+    </div>
+</div>
+
+
 <div class="header-container">
-    <!-- Background image -->
+
     <div class="header-background"></div>
-    <!-- Overlay to darken the background -->
+
     <div class="header-overlay"></div>
 
-    <!-- Text content -->
+
     <div class="header-content">
         <h1>Find Your Dream Apartment</h1>
         <p>Explore the best apartments available for sale or rent</p>
     </div>
 </div>
 
-<!-- Main container -->
-<!--<div class="container">-->
-    <!-- Dropdown button to toggle filter form -->
-<!-- Main container to hold both the sidebar and card content -->
+
 <div class="main-container">
 
-    <!-- Sidebar with filter form -->
     <div class="sidebar">
-        <!-- The form below should invoke the method PostsController.listAll -->
         <form id="filter-form">
             <label for="municipality">Municipality</label>
             <select id="municipality" name="municipality">
                 <option value="">All</option>
-                <!-- For each tag you should have one <option> like below  -->
                 <option th:each="mu: ${municipalities}" th:value="${mu.name()}" th:text="${mu.name()}">[tag.name]</option>
             </select>
 
@@ -317,33 +365,25 @@
             <label for="advertisementType">Rent/Buy</label>
             <select id="advertisementType" name="advertisementType">
                 <option value="">All</option>
-                <!-- For each postType you should have one <option> like below  -->
                 <option th:each="type:${types}" th:value="${type.name()}" th:text="${type.name()}">[postType]</option>
             </select>
             <button id="filter" type="submit">Filter</button>
         </form>
-
-        <!-- Add new post button -->
-        <div>
-            <a href="/apartments/add/ad" class="add-item">Add new post</a>
-        </div>
     </div>
 
     <!-- Content container to allow margin from the fixed sidebar -->
     <div class="content-container">
         <!-- Card layout for advertisements -->
         <div class="card-container">
-            <!-- For each ad, create a card -->
             <div class="card" th:each="ad:${ads}">
                 <img th:src="${ad.getApartment().getImageUrls().get(0)}" alt="Apartment Image">
                 <div class="card-content">
                     <h2 class="card-title">
                         <span th:text="${ad.getApartment().getTitle()}">Apartment Title</span>
-                        <!-- Display average rating with star icon -->
                         <span class="avg-rating">
-                    &#9733;
-                    <span th:text="${ad.getRatingAvg()}">4.5</span>
-                </span>
+                            &#9733;
+                            <span th:text="${ad.getRatingAvg()}">4.5</span>
+                        </span>
                     </h2>
                     <p class="card-details">
                         <span th:text="'Price: ' + ${ad.getPrice()} + ' EUR'">Price: $200,000</span><br>
@@ -357,12 +397,11 @@
                             <button type="submit" class="delete-item">Delete</button>
                         </form>
                     </div>
-                        <div class="card-actions" th:if="${ad.getOwner()!=null}">
+                    <div class="card-actions" th:if="${ad.getOwner()!=null}">
                         <div th:if="${ad.getOwner().getUsername() == #authentication.name}">
-                        <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}">Edit</a>
+                            <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}">Edit</a>
                         </div>
-                        </div>
-
+                    </div>
                     <div>
                         <a class="edit-item" th:href="@{'/apartments/details/{id}' (id=${ad.id})}">Details</a>
                     </div>
@@ -370,10 +409,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
-<!--</div>-->
 
 <!-- Footer -->
 <footer>

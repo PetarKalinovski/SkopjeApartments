@@ -6,6 +6,22 @@
 <body>
 <!-- The form should submit to PostsController.create or PostsController.update,
      depending on whether we are creating or editing a post -->
+<style>
+    footer {
+        background-color: #007BFF; /* Blue color */
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    footer p {
+        margin: 0;
+        font-size: 0.9em;
+    }
+</style>
 
 <form method="post" th:action="@{${apa!=null}? '/apart/'+${apa.id} : '/apart'}">
     <div>
@@ -74,6 +90,8 @@
         <li><a href="/apartments/add/ad">Create an ad</a></li>
     </ul>
 </div>
-
+<footer>
+    <p>&copy; 2024 Apartment Finder. All rights reserved.</p>
+</footer>
 </body>
 </html>

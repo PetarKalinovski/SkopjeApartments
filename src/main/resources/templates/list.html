@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Apartment Listings</title>
     <style>
-        /* General styling */
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -12,7 +12,7 @@
             padding: 0;
         }
 
-        /* Toolbar styling */
+
         .toolbar {
             background-color: #007BFF; /* Blue color */
             color: white;
@@ -39,7 +39,7 @@
             text-decoration: underline;
         }
 
-        /* Main container styling to hold both sidebar and content */
+
         .main-container {
             display: flex;
             flex-direction: row;
@@ -49,7 +49,7 @@
             gap: 40px;
         }
 
-        /* Sidebar styling */
+
         .sidebar {
             flex: 0 0 250px;
             background-color: #ffffff;
@@ -63,7 +63,7 @@
             /*top: 200px;*/
         }
 
-        /* Content adjustment when sidebar is fixed */
+
         .content-container {
             /*margin-left: 50px;*/
             flex: 1;
@@ -77,7 +77,7 @@
             display: block;
         }
 
-        /* Card container styling */
+
         .card-container {
             flex: 1;
             display: flex;
@@ -87,7 +87,7 @@
             justify-content: flex-start;
         }
 
-        /* Header container */
+
         .header-container {
             position: relative;
             height: 400px;
@@ -96,7 +96,7 @@
             text-align: center;
         }
 
-        /* Background image */
+
         .header-background {
             position: absolute;
             top: 0;
@@ -109,7 +109,7 @@
             filter: brightness(65%);
         }
 
-        /* Text content */
+
         .header-content {
             position: relative;
             z-index: 3;
@@ -135,7 +135,7 @@
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
 
-        /* Footer styling */
+
         footer {
             background-color: #007BFF;
             color: white;
@@ -150,14 +150,14 @@
             font-size: 0.9em;
         }
 
-        /* Container for the content */
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Dropdown button to toggle filter form */
+
         .dropdown-btn {
             cursor: pointer;
             background-color: #007BFF;
@@ -341,7 +341,7 @@
 </head>
 <body>
 
-<!-- Toolbar -->
+
 <div class="toolbar">
     <div class="toolbar-element " sec:authorize="!isAuthenticated()">
     <a href="/login">Login</a>
@@ -382,7 +382,7 @@
                 <option th:each="mu: ${municipalities}" th:value="${mu.name()}" th:text="${mu.name()}">[tag.name]</option>
             </select>
 
-            <!-- Price range slider -->
+
             <label for="priceRange">Price Range</label>
             <div class="range-container" id="priceRange">
                 <input id="priceMore" name="priceMore" type="range" th:max="${bigPrice}" min="0" max="1000000" value="0" oninput="updatePriceRange()">
@@ -395,7 +395,7 @@
                 </div>
             </div>
 
-            <!-- Average Rating Range Slider with Inputs -->
+
             <label for="ratingRange">Average Rating Range</label>
             <div class="range-container" id="ratingRange">
                 <input id="avgRatingMore" name="avgRatingMore" type="range" min="0" max="5" step="0.1" value="0" oninput="updateRatingRange()">
@@ -406,7 +406,7 @@
                     <input type="number" id="ratingMaxInput" min="0" max="5" step="0.1" value="5" oninput="updateRatingFromInput()">
                 </div>
             </div>
-            <!-- Size range slider -->
+
             <label for="sizeRange">Size Range</label>
             <div id="sizeRange">
             <input type="range" id="sizeMore" name="sizeMore" th:max="${bigSize}" min="0" max="2000"  value="0" oninput="updateSizeRange()">
@@ -418,11 +418,11 @@
             </div>
             </div>
 
-            <!-- Number of rooms input -->
+
             <label for="numRooms">Number of Rooms</label>
             <input id="numRooms" name="numRooms" type="number"/>
 
-            <!-- Advertisement Type selection -->
+
             <label for="advertisementType">Rent/Buy</label>
             <select id="advertisementType" name="advertisementType">
                 <option value="">All</option>
@@ -433,9 +433,9 @@
         </form>
     </div>
 
-    <!-- Content container to allow margin from the fixed sidebar -->
+
     <div class="content-container">
-        <!-- Card layout for advertisements -->
+
         <div class="card-container">
             <div class="card" th:each="ad:${ads}">
                 <img th:src="${ad.getApartment().getImageUrls().get(0)}" alt="Apartment Image">
@@ -465,7 +465,7 @@
     </div>
 </div>
 
-<!-- Footer -->
+
 <footer>
     <p>&copy; 2024 Apartment Finder. All rights reserved.</p>
 </footer>
@@ -491,7 +491,7 @@
         const priceMinInput = document.getElementById('priceMinInput');
         const priceMaxInput = document.getElementById('priceMaxInput');
 
-        // Update input fields based on slider values
+
         priceMinInput.value = priceMin.value;
         priceMaxInput.value = priceMax.value;
     }
@@ -502,7 +502,7 @@
         const priceMinInput = document.getElementById('priceMinInput');
         const priceMaxInput = document.getElementById('priceMaxInput');
 
-        // Update slider values based on input fields
+
         priceMin.value = priceMinInput.value;
         priceMax.value = priceMaxInput.value;
     }

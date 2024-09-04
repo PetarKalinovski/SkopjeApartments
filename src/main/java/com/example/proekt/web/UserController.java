@@ -36,11 +36,11 @@ public class UserController {
                                @RequestParam Role role,
                                Model model) {
         try {
-            userService.register(username, password, repeatPassword, role); // Default role can be ROLE_USER
-            return "redirect:/login"; // Redirect to login page after successful registration
+            userService.register(username, password, repeatPassword, role);
+            return "redirect:/login";
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "registration"; // Return to the registration page if there's an error
+            return "registration";
         }
     }
     @GetMapping("/login")

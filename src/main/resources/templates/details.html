@@ -198,25 +198,33 @@
             background-color: #007BFF; /* Blue color */
             color: white;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
             padding: 10px 20px;
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .toolbar-element{
-            margin-right: 40px;
+        .toolbar-left, .toolbar-right {
+            display: flex;
+            align-items: center;
         }
-        .toolbar a {
+
+        .toolbar-left a, .toolbar-right a {
             color: white;
             text-decoration: none;
             margin-left: 15px;
             font-size: 16px;
         }
 
-        .toolbar a:hover {
+        .toolbar-left a:first-child {
+            margin-left: 0; /* No margin for the first link on the left */
+        }
+
+        .toolbar-right a:hover {
             text-decoration: underline;
         }
 
@@ -264,22 +272,15 @@
 </head>
 <body>
 <div class="toolbar">
-    <div class="toolbar-element">
-        <a id="back" href="/apartments" type="button" class="btn btn-primary">Back to main page</a>
+    <div class="toolbar-left">
+        <a id="home" href="/apartments" type="button" class="btn btn-primary">Home</a>
     </div>
-    <div class="toolbar-element " sec:authorize="!isAuthenticated()">
-        <a href="/login">Login</a>
-    </div>
-    <div class="toolbar-element " sec:authorize="!isAuthenticated()">
-        <a href="/register">Register</a>
-    </div>
-    <div class="toolbar-element" >
+    <div class="toolbar-right">
+        <a href="/login" sec:authorize="!isAuthenticated()">Login</a>
+        <a href="/register" sec:authorize="!isAuthenticated()">Register</a>
         <a href="/apartments/add/ad">Add an Ad</a>
-    </div>
-    <div class="toolbar-element">
         <a href="/logout" sec:authorize="isAuthenticated()">Logout</a>
     </div>
-
 </div>
 
 <div class="container">

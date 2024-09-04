@@ -50,6 +50,7 @@ public class MessagesController {
         MessageThread messageThread=messageThreadService.findById(id);
 
         model.addAttribute("threadId", id);
+        model.addAttribute("thread", messageThread);
         model.addAttribute("messages", messageThread.getMessages());
         model.addAttribute("currentUser", userService.findByUsername(principal.getName()));
 
@@ -74,7 +75,7 @@ public class MessagesController {
     public String listMessages(@PathVariable Long id, Model model){
         List<MessageThread> messageThreads=messageThreadService.findAllByAdvertisement(id);
         model.addAttribute("threadIds", messageThreads.stream().map(MessageThread::getId).collect(Collectors.toList()));
-
+        model.addAttribute("messagethreads", messageThreads);
         return "listThreads";
     }
 }

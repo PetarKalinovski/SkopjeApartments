@@ -131,6 +131,24 @@
         .toolbar-right a:hover {
             text-decoration: underline;
         }
+
+        .username {
+            font-weight: bold;
+            color: #00418d;
+            margin-bottom: 5px;
+        }
+
+        .message p {
+            margin: 5px 0;
+        }
+
+        .message.sent .username {
+            text-align: right;
+        }
+
+        .message.received .username {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -155,10 +173,9 @@
 
     <div class="message-thread">
         <div th:each="message : ${messages}">
-
             <div th:classappend="${message.sender.username} == ${currentUser.username} ? 'message sent' : 'message received'">
-                <p id="username" th:text="'Username: '+${message.getSender().username}"></p>
-                <p id="content" th:text="${message.content}">Message content here</p>
+                <p id="username" class="username" th:text="${message.getSender().username}"></p>
+                <p id="content" class="content" th:text="${message.content}">Message content here</p>
                 <small th:text="${message.sentAt}">Timestamp</small>
             </div>
         </div>

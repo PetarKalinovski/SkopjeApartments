@@ -385,12 +385,12 @@
             <!-- Price range slider -->
             <label for="priceRange">Price Range</label>
             <div class="range-container" id="priceRange">
-                <input id="priceMore" name="priceMore" type="range" min="0" max="1000000" value="0" oninput="updatePriceRange()">
-                <input id="priceLess" name="priceLess" type="range" min="0" max="1000000" value="1000000" oninput="updatePriceRange()">
+                <input id="priceMore" name="priceMore" type="range" th:max="${bigPrice}" min="0" max="1000000" value="0" oninput="updatePriceRange()">
+                <input id="priceLess" name="priceLess" type="range" th:max="${bigPrice}" min="0" max="1000000" th:value="${bigPrice}" value="1000000" oninput="updatePriceRange()">
                 <div class="range-values">
-                    <input type="number" id="priceMinInput" min="0" max="1000000" value="0" oninput="updatePriceFromInput()">
+                    <input type="number" id="priceMinInput" min="0" th:max="${bigPrice}" max="1000000" value="0" oninput="updatePriceFromInput()">
                     <span> - </span>
-                    <input type="number" id="priceMaxInput" min="0" max="1000000" value="1000000" oninput="updatePriceFromInput()">
+                    <input type="number" id="priceMaxInput" min="0" th:max="${bigPrice}" max="1000000" th:value="${bigPrice}"  value="1000000" oninput="updatePriceFromInput()">
                     <span> EUR</span>
                 </div>
             </div>
@@ -409,12 +409,12 @@
             <!-- Size range slider -->
             <label for="sizeRange">Size Range</label>
             <div id="sizeRange">
-            <input type="range" id="sizeMore" name="sizeMore" min="0" max="2000"  value="0" oninput="updateSizeRange()">
-            <input type="range" id="sizeLess" name="sizeLess" min="0" max="2000"  value="2000" oninput="updateSizeRange()">
+            <input type="range" id="sizeMore" name="sizeMore" th:max="${bigSize}" min="0" max="2000"  value="0" oninput="updateSizeRange()">
+            <input type="range" id="sizeLess" name="sizeLess" th:max="${bigSize}" min="0" max="2000" th:value="${bigSize}" value="2000" oninput="updateSizeRange()">
             <div class="range-values">
-                <input type="number" id="sizeMinInput" min="0" max="2000" value="0" oninput="updateSizeFromInput()">
+                <input type="number" id="sizeMinInput" th:max="${bigSize}" min="0" max="2000" value="0" oninput="updateSizeFromInput()">
                <span> - </span>
-                <input type="number" id="sizeMaxInput" min="0" max="2000"  value="2000" oninput="updateSizeFromInput()">
+                <input type="number" id="sizeMaxInput" th:max="${bigSize}" min="0" max="2000" th:value="${bigSize}"  value="2000" oninput="updateSizeFromInput()">
             </div>
             </div>
 
@@ -444,7 +444,9 @@
                         <span th:text="${ad.getApartment().getTitle()}">Apartment Title</span>
                         <span class="avg-rating">
                             &#9733;
-                            <span th:text="${ad.getRatingAvg()}">4.5</span>
+                            <span th:text="${ad.getRatingAvg()}">4.5</span><br>
+                        </span>
+                        <span th:text="'Type: For '+ ${ad.getType().name()}+'ING'">
                         </span>
                     </h2>
                     <p class="card-details">

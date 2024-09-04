@@ -45,6 +45,10 @@ public class AdvertismentsController {
                  avgRatingLess,comments,numRooms, sizeMore, sizeLess, advertisementType);
 
         model.addAttribute("ads", ads);
+        model.addAttribute("smallSize",advertisementService.minSize());
+        model.addAttribute("bigSize",advertisementService.maxSize());
+        model.addAttribute("bigPrice", advertisementService.maxPrice());
+        model.addAttribute("smallPrice", advertisementService.minPrice());
 //        model.addAttribute("rating", this.advertisementService.ratingAvg());
         model.addAttribute("municipalities", MunicipalityType.values());
         model.addAttribute("types", AdvertisementType.values());

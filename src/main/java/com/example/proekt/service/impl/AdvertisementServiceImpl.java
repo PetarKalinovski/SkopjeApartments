@@ -8,6 +8,7 @@ import com.example.proekt.service.ApartmentService;
 import com.example.proekt.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -94,6 +95,26 @@ public class AdvertisementServiceImpl implements AdvertisementService {
     }
 
     @Override
+    public Integer maxSize() {
+        return this.listAll().stream().max(Comparator.comparing(ad->ad.getApartment().getSize())).map(ad->ad.getApartment().getSize()).orElse(2000);
+    }
+
+    @Override
+    public Integer minSize() {
+        return this.listAll().stream().min(Comparator.comparing(ad->ad.getApartment().getSize())).map(ad->ad.getApartment().getSize()).orElse(0);
+    }
+
+    @Override
+    public Double maxPrice() {
+        return this.listAll().stream().max(Comparator.comparing(Advertisement::getPrice)).map(advertisement -> advertisement.getPrice()).orElse(10000000.0);
+    }
+
+    @Override
+    public Double minPrice() {
+        return this.listAll().stream().min(Comparator.comparing(Advertisement::getPrice)).map(advertisement -> advertisement.getPrice()).orElse(0.0);
+    }
+
+    @Override
     public List<Advertisement> filter(Double priceMore, Double priceLess, MunicipalityType municipality, Double avgRatingMore,
                                       Double avgRatingLess, Double comments, Integer numRooms, Integer sizeMore, Integer sizeLess, AdvertisementType advertisementType) {
         List<Advertisement> filteredAds = this.listAll();
@@ -101,13 +122,13 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         if (priceMore != null) {
             filteredAds = filteredAds.stream()
-                    .filter(ad -> ad.getPrice() > priceMore)
+                    .filter(ad -> ad.getPrice() >= priceMore)
                     .collect(Collectors.toList());
         }
 
         if (priceLess != null) {
             filteredAds = filteredAds.stream()
-                    .filter(ad -> ad.getPrice() < priceLess)
+                    .filter(ad -> ad.getPrice() <= priceLess)
                     .collect(Collectors.toList());
         }
 
@@ -142,7 +163,7 @@ public class AdvertisementServiceImpl implements AdvertisementService {
 
         if (sizeLess != null) {
             filteredAds = filteredAds.stream()
-                    .filter(ad ->  ad.getApartment().getSize() < sizeLess)
+                    .filter(ad ->  ad.getApartment().getSize() <= sizeLess)
                     .collect(Collectors.toList());
         }
         if (advertisementType !=null) {

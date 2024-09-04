@@ -27,6 +27,12 @@ public interface AdvertisementService {
 
     Advertisement delete(Long id);
 
+    Integer maxSize();
+    Integer minSize();
+
+    Double maxPrice();
+    Double minPrice();
+
     List<Advertisement> filter(Double priceMore, Double priceLess, MunicipalityType municipality, Double avgRatingMore,
                                Double avgRatingLess, Double comments, Integer numRooms, Integer sizeMore, Integer sizeLess, AdvertisementType advertisementType);
 

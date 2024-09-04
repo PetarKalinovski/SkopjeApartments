@@ -116,7 +116,7 @@
 <div class="container">
     <h2>Message Threads</h2>
     <ul th:each="messageThread : ${messagethreads}">
-        <li>
+        <li th:if="${messageThread.getUser1().getUsername() != #authentication.name}">
             <p th:text="'Chat with ' + ${messageThread.getUser1().getUsername()}"></p>
             <a th:href="@{'/messages/conversation/{id}'(id=${messageThread.getId()})}">See chat</a>
         </li>

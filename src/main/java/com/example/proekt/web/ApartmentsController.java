@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class ApartmentsController {
     }
 
     @GetMapping("/apart/add/apt")
-    public String showApartment(Model model){
+    public String showApartment(Model model, Principal principal){
         model.addAttribute("municipalities", MunicipalityType.values());
         return "apartForm";
     }
@@ -44,11 +45,11 @@ public class ApartmentsController {
                             @RequestParam Integer numRooms,
                             @RequestParam Integer size,
                             @RequestParam List<String> imageUrls,
-                            @RequestParam String title){
+                            @RequestParam String title, Principal principal){
 
         this.apartmentService.create( municipality,  address,  numRooms,  size,
                 imageUrls.stream().filter(url->url !=null && !url.isEmpty()).collect(Collectors.toList()),
-                title);
+                title, principal.getName());
 
         return "redirect:/apartments";
     }

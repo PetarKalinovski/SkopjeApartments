@@ -1,11 +1,11 @@
 package com.example.proekt.service.impl;
 
-import com.example.proekt.model.Advertisement;
 import com.example.proekt.model.Apartment;
 import com.example.proekt.model.MunicipalityType;
 import com.example.proekt.model.exceptions.InvalidAppartIdException;
 import com.example.proekt.repository.ApartmentReopository;
 import com.example.proekt.service.ApartmentService;
+import com.example.proekt.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +13,11 @@ import java.util.List;
 public class ApartmentServiceImpl implements ApartmentService {
 
     private final ApartmentReopository apartmentReopository;
+    private final UserService userService;
 
-    public ApartmentServiceImpl(ApartmentReopository apartmentReopository) {
+    public ApartmentServiceImpl(ApartmentReopository apartmentReopository, UserService userService) {
         this.apartmentReopository = apartmentReopository;
+        this.userService = userService;
     }
 
     @Override
@@ -29,8 +31,8 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public Apartment create(MunicipalityType municipality, String address, Integer numRooms, Integer size, List<String> imageUrls, String title) {
-        return apartmentReopository.save(new Apartment(municipality,address,numRooms,size,imageUrls,title));
+    public Apartment create(MunicipalityType municipality, String address, Integer numRooms, Integer size, List<String> imageUrls, String title, String user) {
+        return apartmentReopository.save(new Apartment(municipality,address,numRooms,size,imageUrls,title,userService.findByUsername(user)));
     }
 
     @Override

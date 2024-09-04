@@ -453,6 +453,11 @@
             <button type="submit" class="delete-item">Delete advertisement</button>
         </form>
     </div>
+    <div class="card-actions" th:if="${ad.getOwner().getUsername() == #authentication.name}" sec:authorize="!hasRole('ROLE_ADMIN')">
+        <form method="post" th:action="@{'/apartments/delete/ad/{id}'(id=${ad.id})}">
+            <button type="submit" class="delete-item">Delete advertisement</button>
+        </form>
+    </div>
     <div class="card-actions" th:if="${ad.getOwner()!=null}">
         <div th:if="${ad.getOwner().getUsername() == #authentication.name}">
             <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}">Edit advertisement</a>

@@ -162,7 +162,8 @@
         <label>Apartment</label><br/>
         <select id="apartment" name="apartment" multiple="multiple" size="5">
             <!-- For each tag you should have one <option> like below  -->
-            <option th:each="ap:${apartments}" th:value="${ap.getId()}" th:text="${ap.getTitle()}" th:selected="${ad?.getApartment()?.equals(ap)}">[tag.name]</option>
+            <option th:each="ap:${apartments}" th:value="${ap.getId()}"
+                    th:text="${ap.getTitle()}" th:if="${ap.getOwner()==#authentication.name}" th:selected="${ad?.getApartment()?.equals(ap)}">[tag.name]</option>
         </select>
     </div>
 

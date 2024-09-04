@@ -75,5 +75,21 @@ public class MessageThreadServiceImpl implements MessageThreadService {
        else return null;
     }
 
+    @Override
+    public MessageThread delete(Long id) {
+        MessageThread messageThread=this.findById(id);
+        this.messageThreadRepository.delete(messageThread);
+        return messageThread;
+    }
+
+    @Override
+    public List<MessageThread> deleteByAdvertisement(Long ad) {
+        List<MessageThread> messageThreads=findAllByAdvertisement(ad);
+        for(MessageThread msg:messageThreads){
+            this.delete(msg.getId());
+        }
+        return messageThreads;
+    }
+
 
 }

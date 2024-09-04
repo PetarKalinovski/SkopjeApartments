@@ -16,4 +16,8 @@ public interface MessageThreadService{
     public  List<MessageThread> findAllByAdvertisement(Long advertisement);
     public MessageThread findByUser1AndUser2AndAdvertisement(String user1, String user2, Long a);
 
+    public MessageThread delete(Long id);
+
+    public List<MessageThread> deleteByAdvertisement(Long ad);
+
 }

@@ -114,7 +114,9 @@
             display: flex;
             align-items: center;
         }
-
+        .toolbar-right{
+            margin-right: 30px;
+        }
         .toolbar-left a, .toolbar-right a {
             color: white;
             text-decoration: none;
@@ -136,7 +138,8 @@
 <div class="toolbar">
     <div class="toolbar-left">
         <a id="home" href="/apartments" type="button" class="btn btn-primary">Home</a>
-        <a id="back2" th:href="@{'/messages/conversation/all/{id}'(id=${thread.getAdvertisement().getId()})}" type="button" class="btn btn-primary">See other chats</a>
+        <a id="back2" th:if="${thread.getUser1().getUsername()!=#authentication.name}"
+           th:href="@{'/messages/conversation/all/{id}'(id=${thread.getAdvertisement().getId()})}" type="button" class="btn btn-primary">See other chats</a>
     </div>
     <div class="toolbar-right">
         <a id="back" th:href="@{'/apartments/details/{id}'(id=${thread.getAdvertisement().getId()})}" type="button" class="btn btn-primary">Back to advert details</a>

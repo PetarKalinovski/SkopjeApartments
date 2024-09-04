@@ -23,16 +23,20 @@ public class Apartment {
 
     private Integer size;
 
+    @ManyToOne
+    private User owner;
+
     @ElementCollection
     private List<String> imageUrls;
 
-    public Apartment(MunicipalityType municipality, String address, Integer numRooms, Integer size, List<String> imageUrls, String title) {
+    public Apartment(MunicipalityType municipality, String address, Integer numRooms, Integer size, List<String> imageUrls, String title, User owner) {
         this.municipality = municipality;
         this.address = address;
         this.numRooms = numRooms;
         this.size = size;
         this.imageUrls = imageUrls;
         this.title=title;
+        this.owner=owner;
     }
 
     public Apartment() {

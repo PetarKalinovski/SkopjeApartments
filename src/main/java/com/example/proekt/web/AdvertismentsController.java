@@ -55,10 +55,11 @@ public class AdvertismentsController {
         return "list";
     }
     @GetMapping("/apartments/add/ad")
-    public String showAdd(Model model) {
+    public String showAdd(Model model, Principal principal) {
         model.addAttribute("apartments", apartmentService.listAll());
         model.addAttribute("municipalities", MunicipalityType.values());
         model.addAttribute("types", AdvertisementType.values());
+        model.addAttribute("user", principal.getName());
         return "adForm";
     }
     @GetMapping("/apartments/edit/ad/{id}")
@@ -67,6 +68,7 @@ public class AdvertismentsController {
         model.addAttribute("apartments", apartmentService.listAll());
         model.addAttribute("municipalities", MunicipalityType.values());
         model.addAttribute("types", AdvertisementType.values());
+        model.addAttribute("user", apartmentService.findById(id).getOwner().getUsername());
         return "adForm";
     }
 
@@ -112,6 +114,7 @@ public class AdvertismentsController {
 
     @PostMapping("/apartments/delete/ad/{id}")
     public String deleteAd(@PathVariable Long id) {
+        messageThreadService.deleteByAdvertisement(id);
         this.advertisementService.delete(id);
         return "redirect:/apartments";
     }

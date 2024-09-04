@@ -45,7 +45,7 @@ public class WebSecurityConfig {
                         .clearAuthentication(true)
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/apartments")
                 );
 
         return http.build();

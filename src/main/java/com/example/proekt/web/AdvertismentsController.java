@@ -68,7 +68,7 @@ public class AdvertismentsController {
         model.addAttribute("apartments", apartmentService.listAll());
         model.addAttribute("municipalities", MunicipalityType.values());
         model.addAttribute("types", AdvertisementType.values());
-        model.addAttribute("user", apartmentService.findById(id).getOwner().getUsername());
+
         return "adForm";
     }
 

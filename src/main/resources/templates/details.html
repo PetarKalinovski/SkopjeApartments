@@ -227,6 +227,9 @@
         .toolbar-right a:hover {
             text-decoration: underline;
         }
+        .toolbar-right{
+            margin-right: 30px;
+        }
 
         button {
             background-color: #007BFF;
@@ -268,6 +271,76 @@
             resize: vertical;
             margin-bottom: 15px;
         }
+
+        /* Styling for admit-buttons */
+        .admit-buttons {
+            position: absolute;
+            right: 20px;
+            top: 150px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .admit-buttons .card-actions {
+            margin-bottom: 10px;
+        }
+
+        .admit-buttons button.delete-item {
+            background-color: #dc3545; /* Bootstrap's red */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .admit-buttons button.delete-item:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+
+        .admit-buttons .edit-item {
+            background-color: #28a745; /* Bootstrap's green */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .admit-buttons .edit-item:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+
+        /* Styling for the 'Chat with owner' and 'See messages' links */
+        .btn-3 a {
+            display: block;
+            margin-top: 20px;
+            text-align: center;
+            background-color: #007bff; /* Bootstrap's blue */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-3 a:hover {
+                      background-color: #0056b3; /* Darker blue on hover */
+                  }
+
+        /* Adjust container position to accommodate admit-buttons */
+        .container {
+            position: relative;
+            padding-right: 120px; /* Adjust as needed based on button width */
+        }
+
     </style>
 </head>
 <body>
@@ -366,9 +439,25 @@
 
     </div>
 
-    <a th:if="${ad.getOwner().getUsername() != #authentication.name}" class="edit-item" th:href="@{'/messages/conversation/{id}'(id=${threadId})}">Chat with the owner</a>
+    <div class="btn-3">
+    <a th:if="${ad.getOwner().getUsername() != #authentication.name}" class="chat-owner" th:href="@{'/messages/conversation/{id}'(id=${threadId})}">Chat with the owner</a>
 
-    <a th:if="${ad.getOwner().getUsername() == #authentication.name}" th:href="@{'/messages/conversation/all/{id}'(id=${ad.getId()})}">See messages</a>
+    <a th:if="${ad.getOwner().getUsername() == #authentication.name}" class="see-messages" th:href="@{'/messages/conversation/all/{id}'(id=${ad.getId()})}">See messages</a>
+    </div>
+
+</div>
+
+<div class="admit-buttons">
+    <div class="card-actions" sec:authorize="hasRole('ROLE_ADMIN')">
+        <form method="post" th:action="@{'/apartments/delete/ad/{id}'(id=${ad.id})}">
+            <button type="submit" class="delete-item">Delete advertisement</button>
+        </form>
+    </div>
+    <div class="card-actions" th:if="${ad.getOwner()!=null}">
+        <div th:if="${ad.getOwner().getUsername() == #authentication.name}">
+            <a class="edit-item" th:href="@{'/apartments/edit/ad/{id}'(id=${ad.id})}">Edit advertisement</a>
+        </div>
+    </div>
 </div>
 
 <footer>
